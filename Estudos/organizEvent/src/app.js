@@ -119,7 +119,19 @@ const findById = (id) => {
   })
 }
 
+const criarUsuario = (email, password) =>{
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then((user) => {
+    console.log(`usuario ${user} criado com sucesso`)
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode, errorMessage)
+  });
+} 
+
 //findById('FzR5YTqKsyxiOjMpYGFS')
 
 
-module.exports = { getEventos, firebaseInit, login }
+module.exports = { getEventos, firebaseInit, login, criarUsuario }

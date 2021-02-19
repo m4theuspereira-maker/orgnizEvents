@@ -1,10 +1,16 @@
+require('dotenv').config()
 const express = require('express')
+const {getEventos} = require('../app')
 
 const router = express.Router()
 
+
+
 router.get('/', (req, res) =>{
-    res.json('Bem-vindo ao mundo da aids')
+    res.send(getEventos())
 })
+
+
 
 
 module.exports = router

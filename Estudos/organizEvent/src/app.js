@@ -1,4 +1,10 @@
-var firebaseConfig = {
+require('dotenv').config()
+const firebase = require('firebase/app')
+require('firebase/firestore')
+require('firebase/auth')
+const admin = require('firebase-admin')
+
+const firebaseConfig = {
   apiKey: "AIzaSyB-V3XjuC69h36ycuUzTqI1nQIXJyigtU0",
   authDomain: "organizevent.firebaseapp.com",
   projectId: "organizevent",
@@ -8,37 +14,37 @@ var firebaseConfig = {
   measurementId: "G-XFGFLRWRLZ"
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+
+
+const firebaseInit = firebase.initializeApp(firebaseConfig);
+//firebase.analytics();
+
+
+const db = firebase.firestore()
+
 
 const login = (username, password) => {
-  firebase.auth().createUserWithEmailAndPassword(username, password)
+  const user = firebase.auth().createUserWithEmailAndPassword(username, password)
     .then((user) => {
       console.log(user)
       // Signed in
       // ...
     })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode, errorMessage)
+    .catch(() => {
+      if (!user) {
+        login('matheusmonaco123@gmail.com', '@jeanvaljean')
+        console.log(`logando com ${username}`)
+        if (user) console.log('logado com user')
+      } else {
+        console.log(`${username} já logado`)
+      }
     });
 }
 
-login('matheusmonaco123@gmail.com', '@Jeanvaljean24601')
+//login('matheusmonaco123@gmail.com', '@Jeanvaljean24601')
 
-const createEvento = () => {
-  firebase.firestore().collection('evento').add({
-    chave: toString(Math.random()),
-    data_final: '23-05-21',
-    data_inicial: '20-05-21',
-    descricao: 'casal trouxa paga bebida e comida pra geral',
-    inscricao: Math.random(),
-    status: 1,
-    tipo: 100,
-    titulo: 'festa de casamento',
-    visibilidade: 0
-  }).then(() => {
+const createEvento = (evento) => {
+  firebase.firestore().collection('evento').add(evento).then(() => {
     console.log('evento salvo?')
   }).catch(() => {
     console.log('evento não salvo')
@@ -47,9 +53,9 @@ const createEvento = () => {
 
 //createEvento()
 
-const getEventos = () =>{
-  firebase.firestore().collection('evento').get().then(snapshot =>{
-    snapshot.docs.forEach(evento=>{
+const getEventos = () => {
+  db.collection('evento').get().then(snapshot => {
+    snapshot.docs.forEach(evento => {
       console.log(evento.data())
     })
   })
@@ -58,10 +64,10 @@ const getEventos = () =>{
 //getEventos()
 
 
-const atualizarEvento  =(id, descricao) =>{
-  firebase.firestore().collection('evento').doc(id).update({descricao: descricao }).then(()=>{
+const atualizarEvento = (id, descricao) => {
+  db.collection('evento').doc(id).update({ descricao: descricao }).then(() => {
     console.log('Atualizado com sucesso')
-  }).catch(()=>{
+  }).catch(() => {
     console.log('erro ao atualizar')
   })
 }
@@ -69,9 +75,9 @@ const atualizarEvento  =(id, descricao) =>{
 //atualizarEvento('7Yip40CmtxgVHvs3BKKr', 'qualquer coisa')
 
 const deletar = (id) => {
-  firebase.firestore().collection('evento').doc(id).delete().then(()=>{
+  db.collection('evento').doc(id).delete().then(() => {
     console.log('deletado')
-  }).catch(() =>{
+  }).catch(() => {
     console.log('deu erro')
   })
 }
@@ -80,7 +86,7 @@ const deletar = (id) => {
 
 /** 
 const findById = (id) =>{
-  firebase.firestore().collection('evento').where('chave', '==', id).get().then((snapshot)=>{
+  db.collection('evento').where('chave', '==', id).get().then((snapshot)=>{
     snapshot.docs.forEach(evento =>{
       console.log(evento.data())
     })
@@ -92,12 +98,12 @@ const findById = (id) =>{
 
 //findById('mgkdjeirtdj')
 
-const findSubDocument =() =>{
-  firebase.firestore().collection('evento').doc('7Yip40CmtxgVHvs3BKKr').collection('usuarios').get().then((snapshot)=>{
-    snapshot.forEach(doc =>{
+const findSubDocument = () => {
+  db.collection('evento').doc('7Yip40CmtxgVHvs3BKKr').collection('usuarios').get().then((snapshot) => {
+    snapshot.forEach(doc => {
       console.log(doc.data())
     })
-  }).catch(()=>{
+  }).catch(() => {
     console.log('error')
   })
 }
@@ -105,15 +111,15 @@ const findSubDocument =() =>{
 //findSubDocument()
 
 
-const findById = (id) =>{
-  firebase.firestore().collection('evento').doc(id).get().then((document)=>{
+const findById = (id) => {
+  db.collection('evento').doc(id).get().then((document) => {
     console.log(document.data())
-  }).catch(() =>{
+  }).catch(() => {
     console.log('deu erro')
   })
 }
 
-findById('FzR5YTqKsyxiOjMpYGFS')
+//findById('FzR5YTqKsyxiOjMpYGFS')
 
 
-
+module.exports = { getEventos, firebaseInit, login }

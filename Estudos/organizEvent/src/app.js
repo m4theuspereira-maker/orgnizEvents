@@ -98,8 +98,8 @@ const findById = (id) =>{
 
 //findById('mgkdjeirtdj')
 
-const findSubDocument = () => {
-  db.collection('evento').doc('7Yip40CmtxgVHvs3BKKr').collection('usuarios').get().then((snapshot) => {
+const findSubDocument = (documentId, nomeCollection) => {
+  db.collection('evento').doc(documentId).collection(nomeCollection).get().then((snapshot) => {
     snapshot.forEach(doc => {
       console.log(doc.data())
     })
@@ -119,19 +119,54 @@ const findById = (id) => {
   })
 }
 
-const criarUsuario = (email, password) =>{
+const criarUsuario = (email, password) => {
   firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then((user) => {
-    console.log(`usuario ${user} criado com sucesso`)
-  })
-  .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log(errorCode, errorMessage)
+    .then((user) => {
+      console.log(`usuario ${user} criado com sucesso`)
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode, errorMessage)
+    });
+}
+
+
+
+const logout = () => {
+  firebase.auth().signOut().then(() => {
+    console.log('sessão encerrada')
+  }).catch((error) => {
+    console.error(error)
   });
-} 
+}
+
+const evniarEmailVerificacao = () => {
+
+  let user = firebase.auth().currentUser;
+  user.sendEmailVerification().then(function () {
+    console.log('email enviado com sucesso')
+  }).catch((error) => {
+    console.error(error)
+  });
+
+}
+
 
 //findById('FzR5YTqKsyxiOjMpYGFS')
 
 
-module.exports = { getEventos, firebaseInit, login, criarUsuario }
+module.exports = {
+  getEventos,
+  firebaseInit,
+  login,
+  criarUsuario,
+  findById,
+  atualizarEvento,
+  createEvento,
+  criarUsuario,
+  findSubDocument,
+  deletar,
+  logout,
+  evniarEmailVerificacao
+}

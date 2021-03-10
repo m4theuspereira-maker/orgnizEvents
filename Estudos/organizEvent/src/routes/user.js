@@ -1,4 +1,5 @@
-const { criarUsuario, logout, evniarEmailVerificacao } = require('../app')
+const { criarUsuario, logout, evniarEmailVerificacao, resetaSenha, login } = require('../app')
+const express = require('express')
 
 const router = express.Router()
 
@@ -15,7 +16,7 @@ router.post('/signup', (req, res) => {
     }
 })
 
-router.post('/signout', (req, res) =>{
+router.post('/signout', (req, res) => {
     try {
         res.send(logout())
     } catch (error) {
@@ -24,14 +25,35 @@ router.post('/signout', (req, res) =>{
 })
 
 
-router.post('/sendemail', (req, res) =>{
+router.post('/verifcation', (req, res) => {
     try {
-       const result =  evniarEmailVerificacao()
-       res.send(result)
+        const result = evniarEmailVerificacao()
+        res.send(result)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+router.post('/resetpassword', (req, res) => {
+    try {
+        const { email } = req.body
+        const result = resetaSenha(email)
+        res.send(result)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+router.post('/login', (req, res) => {
+    try {
+        const { emial } = req.body
+        const { password } = req.body
+        const result = login(emial, password)
+        res.send(result)
     } catch (error) {
         console.error(error)
     }
 })
 
 
-module.exports= router
+module.exports = router

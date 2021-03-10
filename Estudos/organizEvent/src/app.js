@@ -17,6 +17,8 @@ const firebaseConfig = {
 
 
 const firebaseInit = firebase.initializeApp(firebaseConfig);
+
+console.log(firebaseInit)
 //firebase.analytics();
 
 
@@ -152,6 +154,19 @@ const evniarEmailVerificacao = () => {
 
 }
 
+const resetaSenha = (email) =>{
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(function() {
+      console.log('email enviado para ', email)
+    })
+    .catch((error) => {
+      console.error(error)
+    });
+  }
+
+
+
+
 
 //findById('FzR5YTqKsyxiOjMpYGFS')
 
@@ -168,5 +183,6 @@ module.exports = {
   findSubDocument,
   deletar,
   logout,
-  evniarEmailVerificacao
+  evniarEmailVerificacao,
+  resetaSenha
 }

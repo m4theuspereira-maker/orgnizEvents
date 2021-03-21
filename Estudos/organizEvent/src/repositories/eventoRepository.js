@@ -1,7 +1,7 @@
-
+const {db} = require('../app')
 
 const createEvento = (evento) => {
-    firebase.firestore().collection('evento').add(evento).then(() => {
+    db.firestore().collection('evento').add(evento).then(() => {
       console.log('evento salvo?')
     }).catch(() => {
       console.log('evento não salvo')
@@ -48,9 +48,6 @@ const createEvento = (evento) => {
     })
   }
   
-  //findSubDocument()
-  
-  
   const findById = (id) => {
     db.collection('evento').doc(id).get().then((document) => {
       console.log(document.data())
@@ -59,5 +56,12 @@ const createEvento = (evento) => {
     })
   }
 
-
+module.exports ={
+  createEvento, 
+  getEventos, 
+  atualizarEvento, 
+  deletar, 
+  findSubDocument, 
+  findById
+}
 

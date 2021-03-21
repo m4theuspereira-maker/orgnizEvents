@@ -1,10 +1,9 @@
-const { criarUsuario, logout, evniarEmailVerificacao, resetaSenha, login } = require('../app')
+const { criarUsuario, logout, enviarEmailVerificacao, resetaSenha, login } = require('../repositories/userRepository')
 const express = require('express')
 
 const router = express.Router()
 
 router.post('/signup', (req, res) => {
-
     try {
 
         const { email, password } = req.body
@@ -18,7 +17,8 @@ router.post('/signup', (req, res) => {
 
 router.post('/signout', (req, res) => {
     try {
-        res.send(logout())
+        const result = logout()
+        res.send(result)
     } catch (error) {
         console.error(error)
     }
@@ -27,7 +27,8 @@ router.post('/signout', (req, res) => {
 
 router.post('/verifcation', (req, res) => {
     try {
-        const result = evniarEmailVerificacao()
+        const {email} = req.body
+        const result = enviarEmailVerificacao(email)
         res.send(result)
     } catch (error) {
         console.error(error)
@@ -46,9 +47,9 @@ router.post('/resetpassword', (req, res) => {
 
 router.post('/login', (req, res) => {
     try {
-        const { emial } = req.body
+        const { email } = req.body
         const { password } = req.body
-        const result = login(emial, password)
+        const result = login(email, password)
         res.send(result)
     } catch (error) {
         console.error(error)

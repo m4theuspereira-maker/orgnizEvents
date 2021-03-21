@@ -1,8 +1,8 @@
-const {firebaseInit, firebase, db} = require('../app')
+const {db} = require('../app')
 
 
 const createInformacoes = (informacoes) => {
-    firebase.firestore().collection('informacoes').add(informacoes).then(() => {
+    db.firestore().collection('informacoes').add(informacoes).then(() => {
       console.log('informacoes salvo?')
     }).catch(() => {
       console.log('evento não salvo')

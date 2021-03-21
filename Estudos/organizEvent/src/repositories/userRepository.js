@@ -1,4 +1,7 @@
 
+const { db, firebase } = require('../app')
+
+
 const criarUsuario = (email, password) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
@@ -21,7 +24,7 @@ const logout = () => {
     });
 }
 
-const evniarEmailVerificacao = () => {
+const enviarEmailVerificacao = () => {
 
     let user = firebase.auth().currentUser;
     user.sendEmailVerification().then(function () {
@@ -43,14 +46,26 @@ const resetaSenha = (email) => {
         });
 }
 
-const resetaSenha = (email) => {
-    firebase.auth().sendPasswordResetEmail(email)
-        .then(function () {
-            console.log('email enviado para ', email)
-        })
-        .catch((error) => {
-            console.error(error)
-        });
+const login = (username, password) => {
+    const user = firebase.auth().createUserWithEmailAndPassword(username, password).then((username) => {
+        console.log('SUCESSO')
+    }).catch(() => {
+        if (!user) {
+            login('matheusmonaco123@gmail.com', '@jeanvaljean')
+            console.log(`logando com ${username}`)
+            if (user) console.log('logado com user')
+        } else {
+            console.log(`${username} já logado`)
+        }
+    })
+}
+
+module.exports = {
+    criarUsuario,
+    resetaSenha,
+    logout,
+    enviarEmailVerificacao,
+    login
 }
 
 

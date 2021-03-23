@@ -8,9 +8,9 @@ const router = express.Router()
 router.get('/', (req, res) => {
     try {
         
-        const infromacoes = getInformacoes()
-        res.json(infromacoes)
-        console.log(infromacoes)
+        const informacoes = getInformacoes()
+        res.json(informacoes)
+        console.log(informacoes)
         
     } catch (error) {
         console.error(error)
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
     }
 })
 
-router.post('/cadastrar-inforacoes', (req, res) => {
+router.post('/cadastrar-informacoes', (req, res) => {
     try {
         const { informacoes } = req.body
         const result = createInformacoes(informacoes)

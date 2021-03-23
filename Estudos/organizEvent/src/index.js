@@ -7,7 +7,7 @@ app.use(express.json())
 
 const eventosRouter = require('./routes/eventos')
 const userRouter = require('./routes/user')
-const informacaoRouter = require('./routes/infromacao')
+const informacaoRouter = require('./routes/informacao')
 
 app.use('/eventos', eventosRouter)
 app.use('/user', userRouter)

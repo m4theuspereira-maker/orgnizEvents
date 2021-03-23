@@ -24,5 +24,6 @@ const db = firebase.firestore()
 
 module.exports = {  
   firebaseInit,
-  db, 
+  db,
+  firebase 
 }

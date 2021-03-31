@@ -6,24 +6,24 @@ const router = express.Router()
 
 //coloque no projeto essas funcionalidades: createUserWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     try {
 
-        const eventos = getEventos()
-        res.send(eventos)
-        console.log(eventos)
+        const eventos = await getEventos()
+        return res.send(eventos)
+
     } catch (error) {
         console.error(error)
     }
 
 })
 
-router.get('/:eventoId', (req, res) => {
+router.get('/:eventoId', async (req, res) => {
 
     try {
         const { eventoId } = req.params
-        const evento = findById(eventoId)
-        res.json(evento)
+        const evento = await findById(eventoId)
+        return res.json(evento)
 
     } catch (error) {
         console.error(error)
@@ -31,26 +31,37 @@ router.get('/:eventoId', (req, res) => {
 
 })
 
-router.post('/create-evento', (req, res)=>{
+router.post('/create-evento', async (req, res) => {
     try {
-        const {evento} = req.body
-        const result = createEvento(evento)
-        res.json(result)        
+        const { evento } = req.body
+        const result = await createEvento(evento)
+        return res.json(result)
     } catch (error) {
         console.error(error)
     }
 })
 
-router.put('/update-evento/:eventoId', (req, res)=>{
+router.put('/update-evento/:eventoId', async (req, res) => {
     try {
-        const {eventoId} = req.params
-        const {descricao} = req.body
-        const result = atualizarEvento(eventoId, descricao)
-        res.json(result)
+        const { eventoId } = req.params
+        const { descricao } = req.body
+        const result = await atualizarEvento(eventoId, descricao)
+        return res.json(result)
     } catch (error) {
         console.error(error)
     }
-    
+
+})
+
+router.get('/find-subdocument/:subdocumentId', async (req, res) => {
+    try {
+        const { subdocumentId } = req.params
+        const { nomeCollection } = req.body
+        const result = await findSubDocument(subdocumentId, nomeCollection)
+        return res.json(result)
+    } catch (error) {
+        console.error(error)
+    }
 })
 
 

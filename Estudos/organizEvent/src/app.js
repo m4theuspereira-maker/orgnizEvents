@@ -20,9 +20,8 @@ const firebaseInit = firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore()
 
-
-
 module.exports = {  
   firebaseInit,
+  firebase,
   db, 
 }

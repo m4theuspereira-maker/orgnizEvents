@@ -18,11 +18,13 @@ router.get('/', (req, res) => {
 
 })
 
-router.get('/:eventoId', (req, res) => {
+router.get('/:eventoId', async (req, res) => {
 
     try {
+        console.log("entrou")
         const { eventoId } = req.params
-        const evento = findById(eventoId)
+        const evento = await findById(eventoId)
+        console.log("teste", evento)
         res.json(evento)
 
     } catch (error) {
@@ -52,9 +54,5 @@ router.put('/update-evento/:eventoId', (req, res)=>{
     }
     
 })
-
-
-
-
 
 module.exports = router

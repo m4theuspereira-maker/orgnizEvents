@@ -10,7 +10,7 @@ const createEvento = (evento) => {
 
 
   const getEventos = () => {
-    db.collection('evento').get().then(snapshot => {
+    db.collection('eventos').get().then(snapshot => {
       snapshot.docs.forEach(evento => {
         console.log(evento.data())
       })
@@ -48,9 +48,11 @@ const createEvento = (evento) => {
     })
   }
   
-  const findById = (id) => {
-    db.collection('evento').doc(id).get().then((document) => {
+  const findById = async (id) => {
+   return await db.collection('eventos').doc(id).get()
+    .then((document) => {
       console.log(document.data())
+      return document.data()
     }).catch(() => {
       console.log('deu erro')
     })

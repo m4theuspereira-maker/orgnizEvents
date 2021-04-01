@@ -21,9 +21,15 @@ router.get('/', async (req, res) => {
 router.get('/:eventoId', async (req, res) => {
 
     try {
+        console.log("entrou")
         const { eventoId } = req.params
         const evento = await findById(eventoId)
+<<<<<<< HEAD
         return res.json(evento)
+=======
+        console.log("teste", evento)
+        res.json(evento)
+>>>>>>> cb1a6df73d99ec94e18e06a0fbd93d57cbdb8db8
 
     } catch (error) {
         console.error(error)
@@ -63,9 +69,5 @@ router.get('/find-subdocument/:subdocumentId', async (req, res) => {
         console.error(error)
     }
 })
-
-
-
-
 
 module.exports = router

@@ -3,15 +3,16 @@ const express = require('express')
 
 const router = express.Router()
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     try {
 
         const { email, password } = req.body
-        const usuario = criarUsuario(email, password)
+        const usuario = await criarUsuario(email, password)
         res.json(usuario)
-
+        enviarEmailVerificacao(email)
     } catch (error) {
         console.error(error)
+        res.json(error)
     }
 })
 

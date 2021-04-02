@@ -1,5 +1,5 @@
 const {db} = require('../app')
-
+const express = require('express')
 const createEvento = (evento) => {
     db.firestore().collection('evento').add(evento).then(() => {
       console.log('evento salvo?')
@@ -9,10 +9,12 @@ const createEvento = (evento) => {
   }
 
 
-  const getEventos = () => {
-    db.collection('eventos').get().then(snapshot => {
+  const getEventos = async () => {
+    return await db.collection('eventos').get().then(snapshot => {
       snapshot.docs.forEach(evento => {
-        console.log(evento.data())
+          console.log(evento.data())
+          let teste = {joao: "Pererira", pedrito: "jaoa"}
+          return teste;
       })
     })
   }

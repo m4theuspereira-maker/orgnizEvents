@@ -6,12 +6,12 @@ const router = express.Router()
 
 //coloque no projeto essas funcionalidades: createUserWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     try {
-
-        const eventos = getEventos()
-        res.send(eventos)
-        console.log(eventos)
+        
+        const eventos = await getEventos()
+        res.json(eventos)
+        console.log("eventos", eventos)
     } catch (error) {
         console.error(error)
     }
@@ -21,7 +21,6 @@ router.get('/', (req, res) => {
 router.get('/:eventoId', async (req, res) => {
 
     try {
-        console.log("entrou")
         const { eventoId } = req.params
         const evento = await findById(eventoId)
         console.log("teste", evento)

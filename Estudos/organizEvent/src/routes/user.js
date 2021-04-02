@@ -6,7 +6,7 @@ const router = express.Router()
 router.post('/signup', async (req, res) => {
     try {
 
-        const { email, password } = req.body
+        const { email, password} = req.body
         const usuario = await criarUsuario(email, password)
         res.json(usuario)
         enviarEmailVerificacao(email)

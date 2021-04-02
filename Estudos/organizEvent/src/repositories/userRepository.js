@@ -2,6 +2,37 @@
 const { db, firebase } = require('../app')
 
 
+<<<<<<< HEAD
+const addEnderecoUsuario = async (bairro, cep, cidade, complemento, logradouro, numero) => {
+    const dados = {
+        bairro: bairro,
+        cep: cep,
+        complemento: cidade,
+        complemento: complemento,
+        logradouro: logradouro,
+        numero: numero
+    }
+    return await db.collection('user').collection('endereco').add(dados).then((dados) => {
+        console.log(`${dados} adicionados com sucesso`)
+    }).catch((error) => {
+        let errorCode = error.code;
+        let errorMessage = error.message
+        console.log(errorCode, errorMessage)
+    })
+}
+
+
+const getUsuarios = async () => {
+    return await db.collection('usuarios').get().then(snapshot => {
+        snapshot.docs.forEach(usuario => {
+          console.log(usuario.data())
+        })
+      })
+}
+
+
+=======
+>>>>>>> cb1a6df73d99ec94e18e06a0fbd93d57cbdb8db8
 const criarUsuario = async (email, password) => {
     return await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
@@ -10,8 +41,8 @@ const criarUsuario = async (email, password) => {
             return user
         })
         .catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
+            let errorCode = error.code;
+            let errorMessage = error.message;
             console.log(errorCode, errorMessage)
         });
 }
@@ -29,6 +60,7 @@ const logout = () => {
 const enviarEmailVerificacao = () => {
 
     let user = firebase.auth().currentUser;
+
     user.sendEmailVerification().then(function () {
         console.log('email enviado com sucesso')
     }).catch((error) => {
@@ -49,25 +81,32 @@ const resetaSenha = (email) => {
 }
 
 const login = (username, password) => {
+
     const user = firebase.auth().createUserWithEmailAndPassword(username, password).then((username) => {
+        let currentUser = firebase.auth().currentUser
+        console.log(currentUser)
         console.log('SUCESSO')
     }).catch(() => {
         if (!user) {
-            login('matheusmonaco123@gmail.com', '@jeanvaljean')
+            login(username, password)
             console.log(`logando com ${username}`)
             if (user) console.log('logado com user')
         } else {
             console.log(`${username} já logado`)
+            let currentUser = firebase.auth().currentUser
+            console.log(currentUser.email)
         }
     })
 }
 
 module.exports = {
+    addEnderecoUsuario,
     criarUsuario,
     resetaSenha,
     logout,
     enviarEmailVerificacao,
-    login
+    login, 
+    getUsuarios
 }
 
 

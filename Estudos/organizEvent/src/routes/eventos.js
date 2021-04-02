@@ -8,10 +8,10 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
     try {
-        
+
         const eventos = await getEventos()
-        res.json(eventos)
-        console.log("eventos", eventos)
+        return res.send(eventos)
+
     } catch (error) {
         console.error(error)
     }
@@ -32,26 +32,37 @@ router.get('/:eventoId', async (req, res) => {
 
 })
 
-router.post('/create-evento', (req, res)=>{
+router.post('/create-evento', async (req, res) => {
     try {
-        const {evento} = req.body
-        const result = createEvento(evento)
-        res.json(result)        
+        const { evento } = req.body
+        const result = await createEvento(evento)
+        return res.json(result)
     } catch (error) {
         console.error(error)
     }
 })
 
-router.put('/update-evento/:eventoId', (req, res)=>{
+router.put('/update-evento/:eventoId', async (req, res) => {
     try {
-        const {eventoId} = req.params
-        const {descricao} = req.body
-        const result = atualizarEvento(eventoId, descricao)
-        res.json(result)
+        const { eventoId } = req.params
+        const { descricao } = req.body
+        const result = await atualizarEvento(eventoId, descricao)
+        return res.json(result)
     } catch (error) {
         console.error(error)
     }
-    
+
+})
+
+router.get('/find-subdocument/:subdocumentId', async (req, res) => {
+    try {
+        const { subdocumentId } = req.params
+        const { nomeCollection } = req.body
+        const result = await findSubDocument(subdocumentId, nomeCollection)
+        return res.json(result)
+    } catch (error) {
+        console.error(error)
+    }
 })
 
 module.exports = router

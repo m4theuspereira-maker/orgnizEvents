@@ -1,16 +1,16 @@
 const {db} = require('../app')
-const express = require('express')
-const createEvento = (evento) => {
-    db.firestore().collection('evento').add(evento).then(() => {
+
+const createEvento = async (evento) => {
+   return await  db.firestore().collection('eventos').add(evento).then(() => {
       console.log('evento salvo?')
     }).catch(() => {
       console.log('evento não salvo')
     })
   }
 
-
   const getEventos = async () => {
     return await db.collection('eventos').get().then(snapshot => {
+
       snapshot.docs.forEach(evento => {
           console.log(evento.data())
           let teste = {joao: "Pererira", pedrito: "jaoa"}
@@ -20,8 +20,8 @@ const createEvento = (evento) => {
   }
 
 
-  const atualizarEvento = (id, descricao) => {
-    db.collection('evento').doc(id).update({ descricao: descricao }).then(() => {
+  const atualizarEvento = async (id, descricao) => {
+    return await db.collection('eventos').doc(id).update({ descricao: descricao }).then(() => {
       console.log('Atualizado com sucesso')
     }).catch(() => {
       console.log('erro ao atualizar')
@@ -30,8 +30,8 @@ const createEvento = (evento) => {
   
   //atualizarEvento('7Yip40CmtxgVHvs3BKKr', 'qualquer coisa')
   
-  const deletar = (id) => {
-    db.collection('evento').doc(id).delete().then(() => {
+  const deletar = async (id) => {
+    return await db.collection('evento').doc(id).delete().then(() => {
       console.log('deletado')
     }).catch(() => {
       console.log('deu erro')
@@ -40,8 +40,8 @@ const createEvento = (evento) => {
 
   
 
-  const findSubDocument = (documentId, nomeCollection) => {
-    db.collection('evento').doc(documentId).collection(nomeCollection).get().then((snapshot) => {
+  const findSubDocument = async (documentId, nomeCollection) => {
+   return await db.collection('eventos').doc(documentId).collection(nomeCollection).get().then((snapshot) => {
       snapshot.forEach(doc => {
         console.log(doc.data())
       })
@@ -58,7 +58,10 @@ const createEvento = (evento) => {
     }).catch(() => {
       console.log('deu erro')
     })
+   
   }
+
+
 
 module.exports ={
   createEvento, 

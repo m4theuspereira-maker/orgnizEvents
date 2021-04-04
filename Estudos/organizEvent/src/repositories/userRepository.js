@@ -1,8 +1,6 @@
 
 const { db, firebase } = require('../app')
 
-
-<<<<<<< HEAD
 const addEnderecoUsuario = async (bairro, cep, cidade, complemento, logradouro, numero) => {
     const dados = {
         bairro: bairro,
@@ -30,9 +28,6 @@ const getUsuarios = async () => {
       })
 }
 
-
-=======
->>>>>>> cb1a6df73d99ec94e18e06a0fbd93d57cbdb8db8
 const criarUsuario = async (email, password) => {
     return await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {

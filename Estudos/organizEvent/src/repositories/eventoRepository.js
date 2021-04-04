@@ -9,17 +9,14 @@ const createEvento = async (evento) => {
   }
 
 
-<<<<<<< HEAD
   const getEventos = async () => {
-    return await db.collection('eventos').get().then(snapshot => {
-=======
-  const getEventos = () => {
-    db.collection('eventos').get().then(snapshot => {
->>>>>>> cb1a6df73d99ec94e18e06a0fbd93d57cbdb8db8
-      snapshot.docs.forEach(evento => {
-        console.log(evento.data())
+    let result = []
+    await db.collection('eventos').get().then(snapshot => {
+      return snapshot.docs.forEach(evento => {        
+          result.push(evento.data())
       })
     })
+    return result
   }
 
 
@@ -53,17 +50,11 @@ const createEvento = async (evento) => {
     })
   }
   
-<<<<<<< HEAD
-  const findById =  async (id) => {
-      return  await db.collection('eventos').doc(id).get().then((document) => {
-     return  document.data()
-=======
   const findById = async (id) => {
    return await db.collection('eventos').doc(id).get()
     .then((document) => {
       console.log(document.data())
       return document.data()
->>>>>>> cb1a6df73d99ec94e18e06a0fbd93d57cbdb8db8
     }).catch(() => {
       console.log('deu erro')
     })

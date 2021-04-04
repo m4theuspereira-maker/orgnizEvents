@@ -10,7 +10,8 @@ router.get('/', async (req, res) => {
     try {
 
         const eventos = await getEventos()
-        return res.send(eventos)
+        console.log(eventos)
+        res.json(eventos)
 
     } catch (error) {
         console.error(error)
@@ -24,12 +25,8 @@ router.get('/:eventoId', async (req, res) => {
         console.log("entrou")
         const { eventoId } = req.params
         const evento = await findById(eventoId)
-<<<<<<< HEAD
-        return res.json(evento)
-=======
         console.log("teste", evento)
         res.json(evento)
->>>>>>> cb1a6df73d99ec94e18e06a0fbd93d57cbdb8db8
 
     } catch (error) {
         console.error(error)

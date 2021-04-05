@@ -1,4 +1,5 @@
 
+const { user } = require('firebase-functions/lib/providers/auth');
 const { db, firebase, auth } = require('../app')
 require("firebase/auth")
 
@@ -50,31 +51,21 @@ const resetaSenha = (email) => {
         });
 }
 
-const login = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider()
-                                         
+const login = async (email, password) => {
+    
+   const result = await firebase.auth().signInWithEmailAndPassword(email, password).then((usuario) =>{
 
-    const result = await firebase.auth().
-        signInWithPopup(provider)
-        .then((result) =>{
-            let credential = result.credential
-            let token = credential.accessToken
-            let user  = result. user
-
-            db.collection('usuarios').add({
-                credential: credential,
-                token: token,
-                user: user
-            }).catch((error) =>{
-                let errorCode = error.code;
-                let errorMessage = error.message;                
-                let email = error.email;                
-                let credential = error.credential;
-                console.error(errorCode, errorMessage, email, credential )
-            
-            })
-        })
-    return result
+        if(!usuario.sendEmailVerified){
+            firebase.auth().languageCode = 'pt'
+    
+            if(confirm("Seu email não está verificado, clique em OK e será enviado um email de verificação")){
+                 enviarEmailVerificacao()
+            }
+        }
+    }).catch((error) =>{
+        console.error(error)
+    })
+    
 }
 
 module.exports = {

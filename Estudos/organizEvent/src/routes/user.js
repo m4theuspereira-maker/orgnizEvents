@@ -46,10 +46,11 @@ router.post('/resetpassword', (req, res) => {
     }
 })
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     try {
        
-        const result = login()
+        const {email, password} = req.body
+        const result = await login(email, password)
         res.send(result)
     } catch (error) {
         console.error(error)

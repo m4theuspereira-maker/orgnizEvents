@@ -1,11 +1,7 @@
 const {db} = require('../app')
 
 const createEvento = async (evento) => {
-<<<<<<< HEAD
   const result =  await  db.collection('eventos').add(evento).then(() => {
-=======
-   return await  db.firestore().collection('eventos').add(evento).then(() => {
->>>>>>> 93fb25d1948c75c1d6eb9bbea9c73371a824ee67
       console.log('evento salvo?')
     }).catch(() => {
       console.log('evento não salvo')

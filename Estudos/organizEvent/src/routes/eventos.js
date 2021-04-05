@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const { getEventos, findById, createEvento, atualizarEvento, findSubDocument } = require('../repositories/eventoRepository')
-
+const {v4: uuid} = require('uuid')
 const router = express.Router()
 
 //coloque no projeto essas funcionalidades: createUserWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail
@@ -34,10 +34,10 @@ router.get('/:eventoId', async (req, res) => {
 
 router.post('/create-evento', async (req, res) => {
     try {
-        const { chave, data_inicial, data_final, descricao, informacao, inscricao, local, status, tipo, titulo, visibilidade } = req.body
+        const { data_inicial, data_final, descricao, informacao, inscricao, local, status, tipo, titulo, visibilidade } = req.body
 
         const evento = {
-            chave: chave, 
+            _id: uuid(), 
             data_inicial: data_inicial, 
             data_final: data_final, 
             descricao: descricao, 

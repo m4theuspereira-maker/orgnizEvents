@@ -5,7 +5,6 @@ const router = express.Router()
 
 router.post('/signup', async (req, res) => {
     try {
-        s
 
         const { email, password } = req.body
         const usuario = await criarUsuario(email, password)
@@ -49,9 +48,8 @@ router.post('/resetpassword', (req, res) => {
 
 router.post('/login', (req, res) => {
     try {
-        const { email } = req.body
-        const { password } = req.body
-        const result = login(email, password)
+       
+        const result = login()
         res.send(result)
     } catch (error) {
         console.error(error)

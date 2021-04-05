@@ -2,7 +2,7 @@ const { db } = require('../app')
 
 
 const createInformacoes = async (informacoes) => {
-  return await db.firestore().collection('informacoes').add(informacoes).then(() => {
+  return await db.firestore().collection('eventos').add(informacoes).then(() => {
     console.log('informacoes salvo?')
   }).catch(() => {
     console.log('evento não salvo')

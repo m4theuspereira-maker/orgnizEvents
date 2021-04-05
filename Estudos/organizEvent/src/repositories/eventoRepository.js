@@ -1,11 +1,13 @@
 const {db} = require('../app')
 
 const createEvento = async (evento) => {
-   return await  db.collection('eventos').add(evento).then(() => {
+  const result =  await  db.collection('eventos').add(evento).then(() => {
       console.log('evento salvo?')
     }).catch(() => {
       console.log('evento não salvo')
     })
+
+    return result
   }
 
 

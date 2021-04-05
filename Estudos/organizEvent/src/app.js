@@ -1,7 +1,7 @@
 require('dotenv').config()
 const firebase = require('firebase/app')
 require('firebase/firestore')
-require('firebase/auth')
+const auth = require('firebase/auth')
 
 const admin = require('firebase-admin')
 
@@ -23,5 +23,6 @@ const db = firebase.firestore()
 module.exports = {  
   firebaseInit,
   db,
-  firebase 
+  firebase, 
+  auth
 }

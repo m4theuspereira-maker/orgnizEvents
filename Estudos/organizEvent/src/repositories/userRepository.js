@@ -1,5 +1,6 @@
 
-const { db, firebase } = require('../app')
+const { db, firebase, auth } = require('../app')
+require("firebase/auth")
 
 
 const criarUsuario = async (email, password) => {
@@ -48,23 +49,31 @@ const resetaSenha = (email) => {
         });
 }
 
-const login = (username, password) => {
+const login = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider()
+                                         
 
-    const user = firebase.auth().createUserWithEmailAndPassword(username, password).then((username) => {
-        let currentUser = firebase.auth().currentUser
-        console.log(currentUser)
-        console.log('SUCESSO')
-    }).catch(() => {
-        if (!user) {
-            login(username, password)
-            console.log(`logando com ${username}`)
-            if (user) console.log('logado com user')
-        } else {
-            console.log(`${username} já logado`)
-            let currentUser = firebase.auth().currentUser
-            console.log(currentUser.email)
-        }
-    })
+    const result = await firebase.auth().
+        signInWithPopup(provider)
+        .then((result) =>{
+            let credential = result.credential
+            let token = credential.accessToken
+            let user  = result. user
+
+            db.collection('usuarios').add({
+                credential: credential,
+                token: token,
+                user: user
+            }).catch((error) =>{
+                let errorCode = error.code;
+                let errorMessage = error.message;                
+                let email = error.email;                
+                let credential = error.credential;
+                console.error(errorCode, errorMessage, email, credential )
+            
+            })
+        })
+    return result
 }
 
 module.exports = {

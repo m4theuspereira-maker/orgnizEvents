@@ -6,7 +6,8 @@ require("firebase/auth")
 const criarUsuario = async (email, password) => {
     return await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
-            console.log(`usuario ${user} criado com sucesso`)
+            console.log(`usuario ${user}criado com sucesso`)
+
             return user
         })
         .catch((error) => {

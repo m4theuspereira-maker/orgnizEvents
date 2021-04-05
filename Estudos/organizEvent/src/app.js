@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({path: ".env"})
 const firebase = require('firebase/app')
 require('firebase/firestore')
 const auth = require('firebase/auth')

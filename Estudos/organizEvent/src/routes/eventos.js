@@ -21,9 +21,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:eventoId', async (req, res) => {
 
-    try {        
+    try {
         const { eventoId } = req.params
         const evento = await findById(eventoId)
+        console.log("teste", evento)
         res.json(evento)
 
     } catch (error) {
@@ -34,6 +35,7 @@ router.get('/:eventoId', async (req, res) => {
 
 router.post('/create-evento', async (req, res) => {
     try {
+<<<<<<< HEAD
         const { data_inicial, data_final, descricao, informacao, inscricao, local, status, tipo, titulo, visibilidade } = req.body
 
         const evento = {
@@ -50,6 +52,9 @@ router.post('/create-evento', async (req, res) => {
             visibilidade: visibilidade 
         }
 
+=======
+        const { evento } = req.body
+>>>>>>> 93fb25d1948c75c1d6eb9bbea9c73371a824ee67
         const result = await createEvento(evento)
         return res.json(result)
     } catch (error) {

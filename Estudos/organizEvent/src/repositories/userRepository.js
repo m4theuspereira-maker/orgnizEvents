@@ -1,6 +1,7 @@
 
 const { db, firebase } = require('../app')
 
+<<<<<<< HEAD
 const addEnderecoUsuario = async (bairro, cep, cidade, complemento, logradouro, numero) => {
     const dados = {
         bairro: bairro,
@@ -27,6 +28,8 @@ const getUsuarios = async () => {
         })
       })
 }
+=======
+>>>>>>> 9e8ceb38ee5a10c0c49a7d1d4f218fa6d534048d
 
 const criarUsuario = async (email, password) => {
     return await firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -95,13 +98,12 @@ const login = (username, password) => {
 }
 
 module.exports = {
-    addEnderecoUsuario,
+    
     criarUsuario,
     resetaSenha,
     logout,
     enviarEmailVerificacao,
     login, 
-    getUsuarios
-}
+    }
 
 

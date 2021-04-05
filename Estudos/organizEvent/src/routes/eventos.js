@@ -10,7 +10,8 @@ router.get('/', async (req, res) => {
     try {
 
         const eventos = await getEventos()
-        return res.send(eventos)
+        console.log(eventos)
+        res.json(eventos)
 
     } catch (error) {
         console.error(error)

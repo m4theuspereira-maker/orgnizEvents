@@ -5,22 +5,12 @@ const router = express.Router()
 
 router.post('/signup', async (req, res) => {
     try {
-<<<<<<< HEAD
-        
-        const { email, password, empresa, } = req.body
-        const { bairro, cep, cidade, logradouro, numero } = req.body
-        const enderecoUsuario = addEnderecoUsuario(bairro, cep, cidade, logradouro, numero)
-        const usuario = criarUsuario(email, password, empresa)
-        return res.json(usuario, enderecoUsuario)
-
-=======
         s
 
         const { email, password } = req.body
         const usuario = await criarUsuario(email, password)
         res.json(usuario)
         enviarEmailVerificacao(email)
->>>>>>> 9e8ceb38ee5a10c0c49a7d1d4f218fa6d534048d
     } catch (error) {
         console.error(error)
         res.json(error)

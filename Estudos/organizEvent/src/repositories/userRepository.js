@@ -1,35 +1,6 @@
 
 const { db, firebase } = require('../app')
 
-<<<<<<< HEAD
-const addEnderecoUsuario = async (bairro, cep, cidade, complemento, logradouro, numero) => {
-    const dados = {
-        bairro: bairro,
-        cep: cep,
-        complemento: cidade,
-        complemento: complemento,
-        logradouro: logradouro,
-        numero: numero
-    }
-    return await db.collection('user').collection('endereco').add(dados).then((dados) => {
-        console.log(`${dados} adicionados com sucesso`)
-    }).catch((error) => {
-        let errorCode = error.code;
-        let errorMessage = error.message
-        console.log(errorCode, errorMessage)
-    })
-}
-
-
-const getUsuarios = async () => {
-    return await db.collection('usuarios').get().then(snapshot => {
-        snapshot.docs.forEach(usuario => {
-          console.log(usuario.data())
-        })
-      })
-}
-=======
->>>>>>> 9e8ceb38ee5a10c0c49a7d1d4f218fa6d534048d
 
 const criarUsuario = async (email, password) => {
     return await firebase.auth().createUserWithEmailAndPassword(email, password)

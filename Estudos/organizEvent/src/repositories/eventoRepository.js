@@ -8,22 +8,12 @@ const createEvento = async (evento) => {
     })
   }
 
-<<<<<<< HEAD
-  const getEventos = async () => {
-    return await db.collection('eventos').get().then(snapshot => {
-
-      snapshot.docs.forEach(evento => {
-          console.log(evento.data())
-          let teste = {joao: "Pererira", pedrito: "jaoa"}
-          return teste;
-=======
 
   const getEventos = async () => {
     let result = []
     await db.collection('eventos').get().then(snapshot => {
       return snapshot.docs.forEach(evento => {        
           result.push(evento.data())
->>>>>>> 9e8ceb38ee5a10c0c49a7d1d4f218fa6d534048d
       })
     })
     return result

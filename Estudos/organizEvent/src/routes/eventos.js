@@ -21,11 +21,9 @@ router.get('/', async (req, res) => {
 
 router.get('/:eventoId', async (req, res) => {
 
-    try {
-        console.log("entrou")
+    try {        
         const { eventoId } = req.params
         const evento = await findById(eventoId)
-        console.log("teste", evento)
         res.json(evento)
 
     } catch (error) {
@@ -36,7 +34,22 @@ router.get('/:eventoId', async (req, res) => {
 
 router.post('/create-evento', async (req, res) => {
     try {
-        const { evento } = req.body
+        const { chave, data_inicial, data_final, descricao, informacao, inscricao, local, status, tipo, titulo, visibilidade } = req.body
+
+        const evento = {
+            chave: chave, 
+            data_inicial: data_inicial, 
+            data_final: data_final, 
+            descricao: descricao, 
+            informacao: informacao, 
+            inscricao: inscricao, 
+            local: local, 
+            status: status, 
+            tipo: tipo, 
+            titulo: titulo, 
+            visibilidade: visibilidade 
+        }
+
         const result = await createEvento(evento)
         return res.json(result)
     } catch (error) {

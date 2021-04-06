@@ -1,4 +1,4 @@
-const { criarUsuario, logout, enviarEmailVerificacao, resetaSenha, login, addEnderecoUsuario, getUsuarios } = require('../repositories/userRepository')
+const { criarUsuario, logout, enviarEmailVerificacao, resetaSenha, login, atualizarUsuario, getUsuarios } = require('../repositories/userRepository')
 const express = require('express')
 
 const router = express.Router()
@@ -6,12 +6,25 @@ const router = express.Router()
 router.post('/signup', async (req, res) => {
     try {
 
-        const { email, password } = req.body
-        const usuario = await criarUsuario(email, password)
+        const { email, password, name, telephoneNumber } = req.body
+        await criarUsuario(email, password)
+        const usuario = await atualizarUsuario(name, telephoneNumber)
         res.json(usuario)
         enviarEmailVerificacao(email)
     } catch (error) {
         console.error(error)
+        res.json(error)
+    }
+})
+
+router.post('/update', async(req, res)=>{
+    try{
+        const { nome, telefone} = req.body
+
+        const result = await atualizarUsuario(nome, telefone)
+        res.json(result)
+
+    }catch(error){
         res.json(error)
     }
 })

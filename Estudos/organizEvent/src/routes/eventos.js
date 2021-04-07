@@ -25,7 +25,6 @@ router.get('/:eventoId', async (req, res) => {
     try {
         const { eventoId } = req.params
         const evento = await findById(eventoId)
-        console.log("teste", evento)
         res.json(evento)
 
     } catch (error) {

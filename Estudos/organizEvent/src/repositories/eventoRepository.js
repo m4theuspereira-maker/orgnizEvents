@@ -28,10 +28,10 @@ const createEvento = async (evento) => {
 
       const usuarioAtual = await getUsuarioAtual()
 
-      const result = await firebase.firestore().collection('eventos').where("usuarioId", "=", `${usuarioAtual.uid}`).get()
+      const result = await firebase.firestore().collection('eventos').where("usuarioId", "==", `${usuarioAtual.uid}`).get()
 
       return result
-      
+
     }catch(error){
       console.log(error)
     }

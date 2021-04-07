@@ -18,12 +18,6 @@ const criarUsuario = async (email, password, name, telephoneNumber) => {
             console.log(errorCode, errorMessage)
         });
 
-    const user = firebase.auth().currentUser
-
-    const { uid, displayName, email, phoneNumber, accessToken, refreshToken } = user
-
-    await addNovoUsuario(uid, displayName, email, phoneNumber, accessToken, refreshToken)
-
     // console.log(result.user.displayName)
     return result
 

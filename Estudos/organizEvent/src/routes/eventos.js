@@ -37,6 +37,7 @@ router.post('/create-evento', async (req, res) => {
     try {
         const { data_inicial, data_final, descricao, informacao, inscricao, local, status, tipo, titulo, visibilidade, horaInicial, horaFinal } = req.body
 
+        const user = firebase.auth().currentUser
         const evento = {
             _id: uuid(), 
             dataInicial: data_inicial, 
@@ -44,6 +45,7 @@ router.post('/create-evento', async (req, res) => {
             horaInicial: horaInicial,
             horaFinal: horaFinal,
             descricao: descricao, 
+            usuarioId: user.uid,
             informacao: informacao, 
             inscricao: inscricao, 
             local: local, 

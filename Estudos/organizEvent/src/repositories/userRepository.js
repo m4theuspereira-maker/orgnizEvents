@@ -8,10 +8,9 @@ const criarUsuario = async (email, password, name, telephoneNumber) => {
 
     const result = await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
-            console.log(`usuario ${user.email}criado com sucesso`)
+            console.log(`usuario ${user.email} criado com sucesso`)
 
             return user
-
         })
         .catch((error) => {
             let errorCode = error.code;
@@ -29,18 +28,17 @@ const atualizarUsuario = async (nome, telefone) => {
     try {
 
         let user = await firebase.auth().currentUser
-        console.log(user)
-        user.updateProfile({
-            displayName: nome,
-            phoneNumber: telefone
+        user.updateProfile(user => {
+            user.displayName = nome
+
+            return user
         }).then(function () {
-            console.log(user.displayName,
-                user.phoneNumber)
+            console.log('atualizado com sucesso')
         }).catch(function (error) {
             console.error(error)
         });
 
-        
+
         return user
 
     } catch (error) {
@@ -66,6 +64,24 @@ const enviarEmailVerificacao = () => {
         console.error(error)
     });
 
+}
+
+const addNovoUsuario= async (uid, nome, email, telefone, accessToken, refreshToken) => {
+    const usuario ={
+        uid: uid,
+        nome: nome, 
+        email: email, 
+        telefone: telefone, 
+        accessToken: accessToken, 
+        refreshToken: refreshToken
+    }
+    const result =  await  db.collection('usuarios').add(usuario).then(() => {
+        console.log('usuário salvo')
+      }).catch(() => {
+        console.log('usuário não salvo')
+      })
+  
+      return result
 }
 
 
@@ -97,6 +113,7 @@ const login = async (email, password) => {
 }
 
 module.exports = {
+    addNovoUsuario,
     atualizarUsuario,
     criarUsuario,
     resetaSenha,

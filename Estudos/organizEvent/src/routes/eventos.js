@@ -35,12 +35,14 @@ router.get('/:eventoId', async (req, res) => {
 
 router.post('/create-evento', async (req, res) => {
     try {
-        const { data_inicial, data_final, descricao, informacao, inscricao, local, status, tipo, titulo, visibilidade } = req.body
+        const { data_inicial, data_final, descricao, informacao, inscricao, local, status, tipo, titulo, visibilidade, horaInicial, horaFinal } = req.body
 
         const evento = {
             _id: uuid(), 
-            data_inicial: data_inicial, 
-            data_final: data_final, 
+            dataInicial: data_inicial, 
+            dataFinal: data_final,
+            horaInicial: horaInicial,
+            horaFinal: horaFinal,
             descricao: descricao, 
             informacao: informacao, 
             inscricao: inscricao, 

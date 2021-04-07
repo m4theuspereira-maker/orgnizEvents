@@ -9,22 +9,22 @@ router.post('/signup', async (req, res) => {
         const { email, password, name, telephoneNumber } = req.body
         await criarUsuario(email, password)
         const usuario = await atualizarUsuario(name, telephoneNumber)
-        res.json(usuario)
         enviarEmailVerificacao(email)
+        return res.json(usuario)
     } catch (error) {
         console.error(error)
         res.json(error)
     }
 })
 
-router.post('/update', async(req, res)=>{
-    try{
-        const { nome, telefone} = req.body
+router.post('/update', async (req, res) => {
+    try {
+        const { nome, telefone } = req.body
 
         const result = await atualizarUsuario(nome, telefone)
         res.json(result)
 
-    }catch(error){
+    } catch (error) {
         res.json(error)
     }
 })
@@ -61,8 +61,8 @@ router.post('/resetpassword', (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-       
-        const {email, password} = req.body
+
+        const { email, password } = req.body
         const result = await login(email, password)
         res.send(result)
     } catch (error) {

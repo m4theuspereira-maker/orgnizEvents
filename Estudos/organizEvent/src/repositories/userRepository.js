@@ -18,10 +18,25 @@ const criarUsuario = async (email, password, name, telephoneNumber) => {
             console.log(errorCode, errorMessage)
         });
 
+    const user = firebase.auth().currentUser
+
+    const { uid, displayName, email, phoneNumber, accessToken, refreshToken } = user
+
+    await addNovoUsuario(uid, displayName, email, phoneNumber, accessToken, refreshToken)
+
     // console.log(result.user.displayName)
     return result
 
 
+}
+
+const getUsuarioAtual = async () =>{
+    try {
+        const user = await firebase.auth().currentUser
+        return user
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 const atualizarUsuario = async (nome, telefone) => {
@@ -66,22 +81,22 @@ const enviarEmailVerificacao = () => {
 
 }
 
-const addNovoUsuario= async (uid, nome, email, telefone, accessToken, refreshToken) => {
-    const usuario ={
+const addNovoUsuario = async (uid, nome, email, telefone, accessToken, refreshToken) => {
+    const usuario = {
         uid: uid,
-        nome: nome, 
-        email: email, 
-        telefone: telefone, 
-        accessToken: accessToken, 
+        nome: nome,
+        email: email,
+        telefone: telefone,
+        accessToken: accessToken,
         refreshToken: refreshToken
     }
-    const result =  await  db.collection('usuarios').add(usuario).then(() => {
+    const result = await db.collection('usuarios').add(usuario).then(() => {
         console.log('usuário salvo')
-      }).catch(() => {
+    }).catch(() => {
         console.log('usuário não salvo')
-      })
-  
-      return result
+    })
+
+    return result
 }
 
 
@@ -113,6 +128,7 @@ const login = async (email, password) => {
 }
 
 module.exports = {
+    getUsuarioAtual,
     addNovoUsuario,
     atualizarUsuario,
     criarUsuario,

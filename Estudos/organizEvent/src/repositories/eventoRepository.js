@@ -1,3 +1,5 @@
+
+const {getUsuarioAtual} = require('../repositories/userRepository')
 const {db} = require('../app')
 
 const createEvento = async (evento) => {
@@ -19,6 +21,21 @@ const createEvento = async (evento) => {
       })
     })
     return result
+  }
+
+  const getEventosByUsuarioId = async () =>{
+    try{
+
+      const usuarioAtual = await getUsuarioAtual()
+
+      const result = await firebase.firestore().collection('eventos').where("usuarioId", "=", `${usuarioAtual.uid}`).get()
+
+      return result
+      
+    }catch(error){
+      console.log(error)
+    }
+    
   }
 
 
@@ -66,6 +83,7 @@ const createEvento = async (evento) => {
 
 
 module.exports ={
+  getEventosByUsuarioId,
   createEvento, 
   getEventos, 
   atualizarEvento, 

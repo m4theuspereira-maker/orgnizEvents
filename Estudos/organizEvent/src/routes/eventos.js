@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-const { getEventos, findById, createEvento, atualizarEvento, findSubDocument } = require('../repositories/eventoRepository')
+const { getEventosByUsuarioId ,getEventos, findById, createEvento, atualizarEvento, findSubDocument } = require('../repositories/eventoRepository')
 const {v4: uuid} = require('uuid')
 const router = express.Router()
 
@@ -9,7 +9,7 @@ const router = express.Router()
 router.get('/', async (req, res) => {
     try {
 
-        const eventos = await getEventos()
+        const eventos = await getEventosByUsuarioId()
         console.log(eventos)
         res.json(eventos)
 

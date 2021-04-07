@@ -1,6 +1,6 @@
 
 const {getUsuarioAtual} = require('../repositories/userRepository')
-const {db} = require('../app')
+const {d, firebase} = require('../app')
 
 const createEvento = async (evento) => {
   const result =  await  db.collection('eventos').add(evento).then(() => {

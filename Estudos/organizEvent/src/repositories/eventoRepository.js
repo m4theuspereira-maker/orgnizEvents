@@ -74,13 +74,17 @@ const findSubDocument = async (documentId, nomeCollection) => {
 }
 
 const findById = async (id) => {
-  return await db.collection('eventos').doc(id).get()
-    .then((document) => {
-      console.log(document.data())
-      return document.data()
+  let result = []
+  await db.collection('eventos').where("_id", "==", `${id}`).get()
+    .then((evento) => {      
+      return evento.forEach(element => {
+        result.push(evento.data())
+      });
     }).catch(() => {
       console.log('deu erro')
     })
+
+    return result
 
 }
 

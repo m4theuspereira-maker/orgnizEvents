@@ -3,6 +3,7 @@ const express = require('express')
 const { getEventos, findById, createEvento, atualizarEvento, findSubDocument } = require('../repositories/eventoRepository')
 const {v4: uuid} = require('uuid')
 const router = express.Router()
+const {firebase} = require("../app.js")
 
 //coloque no projeto essas funcionalidades: createUserWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail
 

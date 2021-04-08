@@ -107,7 +107,8 @@ const resetaSenha = (email) => {
 const login = async (email, password) => {
 
     const result = await firebase.auth().signInWithEmailAndPassword(email, password).then((usuario) => {
-        console.log(usuario)
+        //console.log(usuario)
+        return usuario
     }).catch((error) => {
         console.error(error)
     })

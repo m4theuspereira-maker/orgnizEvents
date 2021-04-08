@@ -1,6 +1,7 @@
 
 const { getUsuarioAtual } = require('../repositories/userRepository')
 const { db, firebase } = require('../app')
+const { firestore } = require('firebase-admin')
 
 const createEvento = async (evento) => {
   const result = await db.collection('eventos').add(evento).then(() => {
@@ -25,12 +26,22 @@ const getEventos = async () => {
 
 const getEventosByUsuarioId = async () => {
   try {
-
+    
     const usuarioAtual = await getUsuarioAtual()
-    let result = []
+    let result = [] 
+
     await firebase.firestore().collection('eventos').where("usuarioId", "==", `${usuarioAtual.uid}`).get().then(snapshot => {
       return snapshot.docs.forEach((evento) => {
-        result.push(evento.data())
+        
+        result.push({
+          _id: evento.data()._id, 
+          titulo: evento.data().titulo, 
+          tipo: evento.data().tipo, 
+          dataInicial: evento.data().dataInicial,
+          dataFinal: evento.data().dataFinal,
+          horaInicial: evento.data().horaInicial,
+          horaFinal: evento.data().horaFinal
+        })
       })
     })
 
@@ -77,8 +88,8 @@ const findById = async (id) => {
   let result = []
   await db.collection('eventos').where("_id", "==", `${id}`).get()
     .then((evento) => {      
-      return evento.forEach(element => {
-        result.push(element.data())
+      return evento.forEach(snapshot => {
+        result.push(snapshot.data())
       });
     }).catch(() => {
       console.log('deu erro')

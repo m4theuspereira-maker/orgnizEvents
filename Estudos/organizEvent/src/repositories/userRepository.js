@@ -107,14 +107,7 @@ const resetaSenha = (email) => {
 const login = async (email, password) => {
 
     const result = await firebase.auth().signInWithEmailAndPassword(email, password).then((usuario) => {
-
-        if (!usuario.sendEmailVerified) {
-            firebase.auth().languageCode = 'pt'
-
-            if (confirm("Seu email não está verificado, clique em OK e será enviado um email de verificação")) {
-                enviarEmailVerificacao()
-            }
-        }
+        console.log(usuario)
     }).catch((error) => {
         console.error(error)
     })

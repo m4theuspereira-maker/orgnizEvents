@@ -78,7 +78,7 @@ const findById = async (id) => {
   await db.collection('eventos').where("_id", "==", `${id}`).get()
     .then((evento) => {      
       return evento.forEach(element => {
-        result.push(evento.data())
+        result.push(element.data())
       });
     }).catch(() => {
       console.log('deu erro')

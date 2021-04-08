@@ -6,11 +6,11 @@ const router = express.Router()
 router.post('/signup', async (req, res) => {
     try {
 
-        const { email, password, name, telephoneNumber } = req.body
-        await criarUsuario(email, password)
-        const usuario = await atualizarUsuario(name, telephoneNumber)
+        const { email, password, name } = req.body
+        let user = await criarUsuario(email, password,name)
         enviarEmailVerificacao(email)
-        return res.json(usuario)
+
+        return res.json(user)
     } catch (error) {
         console.error(error)
         res.json(error)

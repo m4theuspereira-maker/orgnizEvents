@@ -6,25 +6,30 @@ require("firebase/auth")
 
 const criarUsuario = async (email, password, name, telephoneNumber) => {
 
-    const result = await firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((user) => {
-            console.log(`usuario ${user.email} criado com sucesso`)
+    // let user = null
+    // firebase.auth().createUserWithEmailAndPassword(email, password)
+    //     .then((UserCredential) => {
+    //         user = UserCredential.user
 
-            return user
-        })
-        .catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.log(errorCode, errorMessage)
-        });
-
-    // console.log(result.user.displayName)
-    return result
-
-
+    //     })
+    //     .then(() => {
+    //         user.updateProfile({
+    //             displayName: name
+    //         })
+    //         console.log('credencial', user)
+    //     })
+    //     .catch((error) => {
+    //         let errorCode = error.code;
+    //         let errorMessage = error.message;
+    //         console.log(errorCode, errorMessage)
+    //     });
+    let user = null;
+    let UserCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+	await UserCredential.user.updateProfile({displayName: name});
+	return UserCredential.user;	
 }
 
-const getUsuarioAtual = async () =>{
+const getUsuarioAtual = async () => {
     try {
         const user = await firebase.auth().currentUser
         return user
@@ -33,22 +38,17 @@ const getUsuarioAtual = async () =>{
     }
 }
 
-const atualizarUsuario = async (nome, telefone) => {
+const atualizarUsuario = async (profile) => {
     try {
 
-        let user = await firebase.auth().currentUser
-        user.updateProfile(user => {
-            user.displayName = nome
+        const user = await firebase.auth().currentUser
 
+        user.updateProfile(profile).then(function () {
             return user
-        }).then(function () {
-            console.log('atualizado com sucesso')
+            console.log('atualizar', user.uid)
         }).catch(function (error) {
             console.error(error)
         });
-
-
-        return user
 
     } catch (error) {
         console.error(error)

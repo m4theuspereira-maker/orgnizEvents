@@ -6,7 +6,8 @@ const { firestore } = require('firebase-admin')
 const createEvento = async (evento) => {
   const result = await db.collection('eventos').add(evento).then(() => {
     console.log('evento salvo?')
-  }).catch(() => {
+  }).catch((error) => {
+    throw error
     console.log('evento não salvo')
   })
 

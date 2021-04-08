@@ -56,9 +56,10 @@ router.post('/create-evento', async (req, res) => {
         }
 
         const result = await createEvento(evento)
-        return res.json(result)
+        res.sendStatus(200)
     } catch (error) {
         console.error(error)
+        res.status(500).json(error)
     }
 
 })

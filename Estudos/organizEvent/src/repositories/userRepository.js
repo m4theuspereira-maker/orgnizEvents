@@ -110,9 +110,10 @@ const login = async (email, password) => {
         //console.log(usuario)
         return usuario
     }).catch((error) => {
-        console.error(error)
+        //console.error(error)
+        throw error
     })
-
+    return result
 }
 
 module.exports = {

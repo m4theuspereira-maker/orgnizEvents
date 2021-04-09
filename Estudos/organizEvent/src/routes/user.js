@@ -5,12 +5,12 @@ const router = express.Router()
 
 router.post('/signup', async (req, res) => {
     try {
-
+        console.log("entrou na rota")
         const { email, password, name } = req.body
         let user = await criarUsuario(email, password,name)
         enviarEmailVerificacao(email)
-
-        return res.json(user)
+        console.log("Não deu erro")
+        res.json(user)
     } catch (error) {
         console.error(error)
         res.json(error)

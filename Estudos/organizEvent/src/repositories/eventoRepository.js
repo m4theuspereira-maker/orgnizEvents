@@ -4,7 +4,7 @@ const { db, firebase } = require('../app')
 const { firestore } = require('firebase-admin')
 
 const createEvento = async (evento) => {
-  const result = await db.collection('eventos').add(evento).then(() => {
+  const result = await db.collection('eventos').doc(evento._id).set(evento).then(() => {
     console.log('evento salvo?')
   }).catch((error) => {
     throw error
@@ -66,8 +66,9 @@ const atualizarEvento = async (id, descricao) => {
 //atualizarEvento('7Yip40CmtxgVHvs3BKKr', 'qualquer coisa')
 
 const deletar = async (id) => {
-  return await db.collection('evento').doc(id).delete().then(() => {
+  return await db.collection('eventos').doc(id).delete().then(() => {
     console.log('deletado')
+    console.log(id)
   }).catch(() => {
     console.log('deu erro')
   })

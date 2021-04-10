@@ -43,7 +43,7 @@ router.post('/verifcation', (req, res) => {
     try {
         const { email } = req.body
         const result = enviarEmailVerificacao(email)
-        res.send(result)
+        return res.send(result)
     } catch (error) {
         console.error(error)
     }
@@ -55,7 +55,7 @@ router.post('/resetpassword', async(req, res) => {
         const result = await resetaSenha(email)
         res.json(result)
     } catch (error) {
-        res.json(result)
+        res.json(error)
     }
 })
 

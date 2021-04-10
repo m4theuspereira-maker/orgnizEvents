@@ -65,8 +65,8 @@ const atualizarEvento = async (id, descricao) => {
 
 
 const deletar = async (id) => {
-  const result =  await db.collection('evento').doc(id).delete().then(() => {
-    return confirm('deletado com sucesso')
+  const result =  await db.collection('eventos').doc(id).delete().then(() => {
+    return ('deletado com sucesso')
   }).catch((error) => {
     throw error
   })

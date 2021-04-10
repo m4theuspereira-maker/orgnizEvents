@@ -24,9 +24,10 @@ const verificarUsuarioLogado = () => {
   firebase.auth().onAuthStateChanged((usuario) => {
     if (usuario) {
       if (usuario.emailVerified) {
-        if (confirm("Usuário logado, você deseja entrar?")) {
-          window.location.href = "evento.html";
-        }
+        //if (confirm("Usuário logado, você deseja entrar?")) {
+         // window.location.href = "evento.html";
+        //}
+        console.log('usuário veirificado')
       }
     } else {
       throw ("Não há usuários logados");

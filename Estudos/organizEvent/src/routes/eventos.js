@@ -1,9 +1,9 @@
 require('dotenv').config()
 const express = require('express')
-const { getEventosByUsuarioId ,getEventos, findById, createEvento, atualizarEvento, findSubDocument, deletar } = require('../repositories/eventoRepository')
-const {v4: uuid} = require('uuid')
+const { getEventosByUsuarioId, getEventos, findById, createEvento, atualizarEvento, findSubDocument, deletar } = require('../repositories/eventoRepository')
+const { v4: uuid } = require('uuid')
 const router = express.Router()
-const {firebase} = require("../app.js")
+const { firebase } = require("../app.js")
 
 //coloque no projeto essas funcionalidades: createUserWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail
 
@@ -26,7 +26,7 @@ router.get('/:eventoId', async (req, res) => {
         const { eventoId } = req.params
         const evento = await findById(eventoId)
         res.json(evento)
-        
+
     } catch (error) {
         console.error(error)
     }
@@ -35,28 +35,47 @@ router.get('/:eventoId', async (req, res) => {
 
 router.post('/create-evento', async (req, res) => {
     try {
-        const { data_inicial, data_final, descricao, informacao, inscricao, local, status, tipo, titulo, visibilidade, horaInicial, horaFinal } = req.body
+        const { dataInicial,
+            dataFinal,
+            horaInicial,
+            horaFinal,
+            descricao,
+            informacao,
+            inscricao,
+            local,
+            participantes,
+            status,
+            tipo,
+            titulo,
+            visibilidade
+        } = req.body
 
         const user = firebase.auth().currentUser
+
+        if(user === null){
+           throw ('usuário não encontrado')
+        }
+
         const evento = {
-            _id: uuid(), 
-            dataInicial: data_inicial, 
-            dataFinal: data_final,
+            _id: uuid(),
+            dataInicial: dataInicial,
+            dataFinal: dataFinal,
             horaInicial: horaInicial,
             horaFinal: horaFinal,
-            descricao: descricao, 
+            descricao: descricao,
             usuarioId: user.uid,
-            informacao: informacao, 
-            inscricao: inscricao, 
-            local: local, 
-            status: status, 
-            tipo: tipo, 
-            titulo: titulo, 
-            visibilidade: visibilidade 
+            informacao: informacao,
+            inscricao: inscricao,
+            local: local,
+            participantes: participantes,
+            status: status,
+            tipo: tipo,
+            titulo: titulo,
+            visibilidade: visibilidade
         }
 
         const result = await createEvento(evento)
-        res.sendStatus(200)
+       return res.sendStatus(200).json(result)
     } catch (error) {
         console.error(error)
         res.status(500).json(error)
@@ -68,7 +87,7 @@ router.delete('/:eventoId', async (req, res) => {
 
     try {
 
-        const {eventoId} = req.params
+        const { eventoId } = req.params
         const evento = await deletar(eventoId)
         res.json(evento)
 

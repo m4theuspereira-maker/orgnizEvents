@@ -23,7 +23,7 @@ const getUsuarioAtual = async () => {
         const user = await firebase.auth().currentUser
         return user
     } catch (error) {
-        console.error(error)
+        throw (error)
     }
 }
 
@@ -44,11 +44,11 @@ const atualizarUsuario = async (profile) => {
     }
 }
 
-const logout = () => {
-   return await firebase.auth().signOut().then(() => {
-        console.log('sessão encerrada')
+const logout = async () => {
+    return await firebase.auth().signOut().then(() => {
+       return console.log('sessão encerrada')
     }).catch((error) => {
-        throw (error)
+        throw ('erro ao encerrar sessão')
     });
 }
 
@@ -83,13 +83,13 @@ const addNovoUsuario = async (uid, nome, email, telefone, accessToken, refreshTo
 }
 
 
-const resetaSenha = (email) => {
+const resetaSenha = async (email) => {
     return await firebase.auth().sendPasswordResetEmail(email)
         .then(function () {
             console.log('email enviado para ', email)
         })
         .catch((error) => {
-            throw (error)
+            throw ('email inválido')
         });
 }
 
@@ -100,14 +100,15 @@ const login = async (email, password) => {
         if (!usuario.sendEmailVerified) {
             firebase.auth().languageCode = 'pt'
 
-            if (confirm("Seu email não está verificado, clique em OK e será enviado um email de verificação")) {
-                enviarEmailVerificacao()
-            }
+           // if (confirm("Seu email não está verificado, clique em OK e será enviado um email de verificação")) {
+               // enviarEmailVerificacao()
+            //}
         }
     }).catch((error) => {
-        throw error
+        throw ('email ou senha inválida')
     })
 
+    return result
 }
 
 module.exports = {

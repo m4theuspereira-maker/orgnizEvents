@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
 })
 
-router.patch('/participantes', (req, res) => {
+router.patch('/participantes', async (req, res) => {
     try {
         const { participantes, id} = req.body
         const result = await editarParticipantes(id, participantes)

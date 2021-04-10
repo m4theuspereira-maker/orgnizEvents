@@ -13,7 +13,7 @@ const criarUsuario = async (email, password, name) => {
         return UserCredential.user;
 
     } catch (error) {
-        console.error(error)
+        throw (error)
     }
 
 }
@@ -45,10 +45,10 @@ const atualizarUsuario = async (profile) => {
 }
 
 const logout = () => {
-    firebase.auth().signOut().then(() => {
+   return await firebase.auth().signOut().then(() => {
         console.log('sessão encerrada')
     }).catch((error) => {
-        console.error(error)
+        throw (error)
     });
 }
 
@@ -59,7 +59,7 @@ const enviarEmailVerificacao = () => {
     user.sendEmailVerification().then(function () {
         console.log('email enviado com sucesso')
     }).catch((error) => {
-        console.error(error)
+        throw (error)
     });
 
 }
@@ -84,12 +84,12 @@ const addNovoUsuario = async (uid, nome, email, telefone, accessToken, refreshTo
 
 
 const resetaSenha = (email) => {
-    firebase.auth().sendPasswordResetEmail(email)
+    return await firebase.auth().sendPasswordResetEmail(email)
         .then(function () {
             console.log('email enviado para ', email)
         })
         .catch((error) => {
-            console.error(error)
+            throw (error)
         });
 }
 

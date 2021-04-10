@@ -29,7 +29,7 @@ const verificarUsuarioLogado = () => {
         }
       }
     } else {
-      console.log("Não há usuários logados");
+      throw ("Não há usuários logados");
     }
   });
 

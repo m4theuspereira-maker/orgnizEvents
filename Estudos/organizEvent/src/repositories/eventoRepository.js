@@ -93,7 +93,7 @@ const findById = async (id) => {
         result.push(snapshot.data())
       });
     }).catch(() => {
-      throw confirm('erro ao retornar listas de eventos')
+      throw ('erro ao retornar listas de eventos')
     })
 
     return result

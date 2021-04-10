@@ -1,7 +1,6 @@
 
 const { getUsuarioAtual } = require('../repositories/userRepository')
 const { db, firebase } = require('../app')
-const { firestore } = require('firebase-admin')
 
 const createEvento = async (evento) => {
   const result = await db.collection('eventos').add(evento).then(() => {
@@ -12,7 +11,6 @@ const createEvento = async (evento) => {
 
   return result
 }
-
 
 const getEventos = async () => {
   let result = []
@@ -45,14 +43,17 @@ const getEventosByUsuarioId = async () => {
       })
     })
 
+    if(!usuarioAtual.uid){
+      return confirm(`usuário ${usuarioAtual.displayName} não encontrado, verifique seu login`)
+    }
+
     return result
 
   } catch (error) {
-    console.log(error)
+    throw console.log(error)
   }
 
 }
-
 
 const atualizarEvento = async (id, descricao) => {
   return await db.collection('eventos').doc(id).update({ descricao: descricao }).then(() => {
@@ -62,7 +63,6 @@ const atualizarEvento = async (id, descricao) => {
   })
 }
 
-//atualizarEvento('7Yip40CmtxgVHvs3BKKr', 'qualquer coisa')
 
 const deletar = async (id) => {
   return await db.collection('evento').doc(id).delete().then(() => {
@@ -71,7 +71,6 @@ const deletar = async (id) => {
     console.log('deu erro')
   })
 }
-
 
 
 const findSubDocument = async (documentId, nomeCollection) => {
@@ -98,7 +97,6 @@ const findById = async (id) => {
     return result
 
 }
-
 
 
 module.exports = {

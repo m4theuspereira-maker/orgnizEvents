@@ -6,27 +6,17 @@ require("firebase/auth")
 
 const criarUsuario = async (email, password, name, telephoneNumber) => {
 
-    // let user = null
-    // firebase.auth().createUserWithEmailAndPassword(email, password)
-    //     .then((UserCredential) => {
-    //         user = UserCredential.user
+    try {
 
-    //     })
-    //     .then(() => {
-    //         user.updateProfile({
-    //             displayName: name
-    //         })
-    //         console.log('credencial', user)
-    //     })
-    //     .catch((error) => {
-    //         let errorCode = error.code;
-    //         let errorMessage = error.message;
-    //         console.log(errorCode, errorMessage)
-    //     });
-    let user = null;
-    let UserCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-	await UserCredential.user.updateProfile({displayName: name});
-	return UserCredential.user;	
+        let UserCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        await UserCredential.user.updateProfile({ displayName: name });
+        await UserCredential.user.updatePhoneNumber(telephoneNumber)
+        return UserCredential.user;
+
+    } catch (error) {
+        console.error(error)
+    }
+
 }
 
 const getUsuarioAtual = async () => {
@@ -107,8 +97,14 @@ const resetaSenha = (email) => {
 const login = async (email, password) => {
 
     const result = await firebase.auth().signInWithEmailAndPassword(email, password).then((usuario) => {
-        //console.log(usuario)
-        return usuario
+
+        if (!usuario.sendEmailVerified) {
+            firebase.auth().languageCode = 'pt'
+
+            if (confirm("Seu email não está verificado, clique em OK e será enviado um email de verificação")) {
+                enviarEmailVerificacao()
+            }
+        }
     }).catch((error) => {
         console.error(error)
     })

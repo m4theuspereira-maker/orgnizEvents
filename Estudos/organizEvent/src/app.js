@@ -1,4 +1,4 @@
-require('dotenv').config({path: ".env"})
+require('dotenv').config({ path: ".env" })
 const firebase = require('firebase/app')
 require('firebase/firestore')
 const auth = require('firebase/auth')
@@ -21,25 +21,25 @@ const firebaseInit = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore()
 
 const verificarUsuarioLogado = () => {
-  firebase.auth().onAuthStateChanged((usuario) =>{
+  firebase.auth().onAuthStateChanged((usuario) => {
     if (usuario) {
-        if(usuario.emailVerified){
-            if(confirm("Usuário logado, você deseja entrar?")){
-                window.location.href="evento.html";
-            }
+      if (usuario.emailVerified) {
+        if (confirm("Usuário logado, você deseja entrar?")) {
+          window.location.href = "evento.html";
         }
+      }
     } else {
-        console.log("Não há usuários logados");
+      console.log("Não há usuários logados");
     }
-});
+  });
 
 }
 
-module.exports = {  
+module.exports = {
   verificarUsuarioLogado,
   firebaseInit,
   db,
-  firebase, 
+  firebase,
   auth
 }
 

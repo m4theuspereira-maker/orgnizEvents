@@ -5,12 +5,12 @@ const router = express.Router()
 
 router.post('/signup', async (req, res) => {
     try {
-
+        console.log("entrou na rota")
         const { email, password, name } = req.body
         let user = await criarUsuario(email, password,name)
         enviarEmailVerificacao(email)
-
-        return res.json(user)
+        console.log("Não deu erro")
+        res.json(user)
     } catch (error) {
         console.error(error)
         res.json(error)
@@ -49,24 +49,25 @@ router.post('/verifcation', (req, res) => {
     }
 })
 
-router.post('/resetpassword', (req, res) => {
+router.post('/resetpassword', async(req, res) => {
     try {
         const { email } = req.body
-        const result = resetaSenha(email)
-        res.send(result)
+        const result = await resetaSenha(email)
+        res.json(result)
     } catch (error) {
-        console.error(error)
+        res.json(result)
     }
 })
 
 router.post('/login', async (req, res) => {
     try {
+        console.log("entrou na rota /login")
         const { email, password } = req.body
         const result = await login(email, password)
-        res.status(200).json("Logado")
+        res.json(result)
     } catch (error) {
         console.error(error)
-        res.json(error)
+        res.status(500).json(error)
     }
 })
 

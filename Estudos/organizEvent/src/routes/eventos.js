@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-const { getEventosByUsuarioId ,getEventos, findById, createEvento, atualizarEvento, findSubDocument } = require('../repositories/eventoRepository')
+const { getEventosByUsuarioId ,getEventos, findById, createEvento, atualizarEvento, findSubDocument, deletar } = require('../repositories/eventoRepository')
 const {v4: uuid} = require('uuid')
 const router = express.Router()
 const {firebase} = require("../app.js")
@@ -26,7 +26,7 @@ router.get('/:eventoId', async (req, res) => {
         const { eventoId } = req.params
         const evento = await findById(eventoId)
         res.json(evento)
-
+        
     } catch (error) {
         console.error(error)
     }
@@ -56,7 +56,22 @@ router.post('/create-evento', async (req, res) => {
         }
 
         const result = await createEvento(evento)
-        return res.json(result)
+        res.sendStatus(200)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json(error)
+    }
+
+})
+
+router.delete('/:eventoId', async (req, res) => {
+
+    try {
+
+        const {eventoId} = req.params
+        const evento = await deletar(eventoId)
+        res.json(evento)
+
     } catch (error) {
         console.error(error)
     }

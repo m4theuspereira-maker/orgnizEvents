@@ -3,10 +3,9 @@ const { getUsuarioAtual } = require('../repositories/userRepository')
 const { db, firebase } = require('../app')
 
 const createEvento = async (evento) => {
-  const result = await db.collection('eventos').doc(evento._id).set(evento).then(() => {
+  const result = await db.collection('eventos').add(evento).then(() => {
     console.log('evento salvo?')
-  }).catch((error) => {
-    throw error
+  }).catch(() => {
     console.log('evento não salvo')
   })
 
@@ -66,12 +65,13 @@ const atualizarEvento = async (id, descricao) => {
 
 
 const deletar = async (id) => {
-  return await db.collection('eventos').doc(id).delete().then(() => {
-    console.log('deletado')
-    console.log(id)
-  }).catch(() => {
-    console.log('deu erro')
+  const result =  await db.collection('evento').doc(id).delete().then(() => {
+    return confirm('deletado com sucesso')
+  }).catch((error) => {
+    throw error
   })
+
+  return result
 }
 
 
@@ -93,7 +93,7 @@ const findById = async (id) => {
         result.push(snapshot.data())
       });
     }).catch(() => {
-      console.log('deu erro')
+      throw confirm('erro ao retornar listas de eventos')
     })
 
     return result

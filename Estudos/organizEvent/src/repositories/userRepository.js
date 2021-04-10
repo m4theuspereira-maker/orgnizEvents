@@ -2,15 +2,14 @@
 const { user } = require('firebase-functions/lib/providers/auth');
 const { db, firebase, auth } = require('../app')
 require("firebase/auth")
+//etEventosByUsuarioId, deletar, findById, enviarEmailVerificacao, resetaSenha, logout e criarUsuario
 
-
-const criarUsuario = async (email, password, name, telephoneNumber) => {
+const criarUsuario = async (email, password, name) => {
 
     try {
 
         let UserCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
         await UserCredential.user.updateProfile({ displayName: name });
-        await UserCredential.user.updatePhoneNumber(telephoneNumber)
         return UserCredential.user;
 
     } catch (error) {
@@ -106,10 +105,9 @@ const login = async (email, password) => {
             }
         }
     }).catch((error) => {
-        //console.error(error)
         throw error
     })
-    return result
+
 }
 
 module.exports = {

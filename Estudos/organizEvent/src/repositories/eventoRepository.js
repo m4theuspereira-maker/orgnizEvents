@@ -22,6 +22,20 @@ const getEventos = async () => {
   return result
 }
 
+const editarParticipantes = async (id, participantes) =>{
+  db.collection("cities").doc().set(
+    name: "Los Angeles",
+    state: "CA",
+    country: "USA"
+})
+.then(() => {
+    console.log("Document successfully written!");
+})
+.catch((error) => {
+    console.error("Error writing document: ", error);
+});
+}
+
 const getEventosByUsuarioId = async () => {
   try {
     

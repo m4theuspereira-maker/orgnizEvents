@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-const { getEventosByUsuarioId, getEventos, findById, createEvento, atualizarEvento, findSubDocument, deletar } = require('../repositories/eventoRepository')
+const { getEventosByUsuarioId, getEventos, findById, createEvento, atualizarEvento, findSubDocument, deletar, editarParticipantes } = require('../repositories/eventoRepository')
 const { v4: uuid } = require('uuid')
 const router = express.Router()
 const { firebase } = require("../app.js")
@@ -18,6 +18,16 @@ router.get('/', async (req, res) => {
         console.error(error)
     }
 
+})
+
+router.patch('/participantes', (req, res) => {
+    try {
+        const { participantes } = req.body
+        const result = await editarParticipantes(participantes)
+        return result
+    } catch (error) {
+        throw error
+    }
 })
 
 router.get('/:eventoId', async (req, res) => {
@@ -52,8 +62,8 @@ router.post('/create-evento', async (req, res) => {
 
         const user = firebase.auth().currentUser
 
-        if(user === null){
-           throw ('usuário não encontrado')
+        if (user === null) {
+            throw ('usuário não encontrado')
         }
 
         const evento = {
@@ -75,7 +85,7 @@ router.post('/create-evento', async (req, res) => {
         }
 
         const result = await createEvento(evento)
-       return res.sendStatus(200).json(result)
+        return res.sendStatus(200).json(result)
     } catch (error) {
         console.error(error)
         res.status(500).json(error)

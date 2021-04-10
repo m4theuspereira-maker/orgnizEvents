@@ -22,33 +22,38 @@ const getEventos = async () => {
   return result
 }
 
-const editarParticipantes = async (id, participantes) =>{
-  db.collection("cities").doc().set(
-    name: "Los Angeles",
-    state: "CA",
-    country: "USA"
-})
-.then(() => {
-    console.log("Document successfully written!");
-})
-.catch((error) => {
-    console.error("Error writing document: ", error);
-});
+const editarParticipantes = async (id, participantes) => {
+
+  let participantesArray = []
+
+  participantes.map(participante => {
+    participantesArray.push(participante)
+  })
+
+  const result = await db.collection("cities").doc(id).set(participantesArray, { merge: true })
+    .then(() => {
+      console.log("Document successfully written!");
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
+
+  return result
 }
 
 const getEventosByUsuarioId = async () => {
   try {
-    
+
     const usuarioAtual = await getUsuarioAtual()
-    let result = [] 
+    let result = []
 
     await firebase.firestore().collection('eventos').where("usuarioId", "==", `${usuarioAtual.uid}`).get().then(snapshot => {
       return snapshot.docs.forEach((evento) => {
-        
+
         result.push({
-          _id: evento.data()._id, 
-          titulo: evento.data().titulo, 
-          tipo: evento.data().tipo, 
+          _id: evento.data()._id,
+          titulo: evento.data().titulo,
+          tipo: evento.data().tipo,
           dataInicial: evento.data().dataInicial,
           dataFinal: evento.data().dataFinal,
           horaInicial: evento.data().horaInicial,
@@ -57,7 +62,7 @@ const getEventosByUsuarioId = async () => {
       })
     })
 
-    if(!usuarioAtual.uid){
+    if (!usuarioAtual.uid) {
       return confirm(`usuário ${usuarioAtual.displayName} não encontrado, verifique seu login`)
     }
 
@@ -79,7 +84,7 @@ const atualizarEvento = async (id, descricao) => {
 
 
 const deletar = async (id) => {
-  const result =  await db.collection('eventos').doc(id).delete().then(() => {
+  const result = await db.collection('eventos').doc(id).delete().then(() => {
     return ('deletado com sucesso')
   }).catch((error) => {
     throw error
@@ -102,7 +107,7 @@ const findSubDocument = async (documentId, nomeCollection) => {
 const findById = async (id) => {
   let result = []
   await db.collection('eventos').where("_id", "==", `${id}`).get()
-    .then((evento) => {      
+    .then((evento) => {
       return evento.forEach(snapshot => {
         result.push(snapshot.data())
       });
@@ -110,12 +115,13 @@ const findById = async (id) => {
       throw ('erro ao retornar listas de eventos')
     })
 
-    return result
+  return result
 
 }
 
 
 module.exports = {
+  editarParticipantes,
   getEventosByUsuarioId,
   createEvento,
   getEventos,

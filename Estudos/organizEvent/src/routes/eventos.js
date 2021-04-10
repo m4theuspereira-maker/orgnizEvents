@@ -22,8 +22,8 @@ router.get('/', async (req, res) => {
 
 router.patch('/participantes', (req, res) => {
     try {
-        const { participantes } = req.body
-        const result = await editarParticipantes(participantes)
+        const { participantes, id} = req.body
+        const result = await editarParticipantes(id, participantes)
         return result
     } catch (error) {
         throw error

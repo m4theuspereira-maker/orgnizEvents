@@ -3,7 +3,7 @@ const { getUsuarioAtual } = require('../repositories/userRepository')
 const { db, firebase } = require('../app')
 
 const createEvento = async (evento) => {
-  const result = await db.collection('eventos').add(evento).then(() => {
+  const result = await db.collection('eventos').doc(evento.id).set(evento).then(() => {
     console.log('evento salvo?')
   }).catch(() => {
     console.log('evento não salvo')

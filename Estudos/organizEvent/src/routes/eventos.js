@@ -20,14 +20,17 @@ router.get('/', async (req, res) => {
 
 })
 
-router.patch('/participantes', async (req, res) => {
+router.post('/participantes', async (req, res) => {
     try {
+        console.log("Entrou na rota /participantes")
         const { participantes, id} = req.body
+        console.log(participantes)
         const result = await editarParticipantes(id, participantes)
         return result
     } catch (error) {
         throw error
     }
+    
 })
 
 router.get('/:eventoId', async (req, res) => {
@@ -53,11 +56,11 @@ router.post('/create-evento', async (req, res) => {
             informacao,
             inscricao,
             local,
-            participantes,
             status,
             tipo,
             titulo,
-            visibilidade
+            visibilidade,
+            participantes
         } = req.body
 
         const user = firebase.auth().currentUser
@@ -77,11 +80,11 @@ router.post('/create-evento', async (req, res) => {
             informacao: informacao,
             inscricao: inscricao,
             local: local,
-            participantes: participantes,
             status: status,
             tipo: tipo,
             titulo: titulo,
-            visibilidade: visibilidade
+            visibilidade: visibilidade,
+            participantes: participantes
         }
 
         const result = await createEvento(evento)

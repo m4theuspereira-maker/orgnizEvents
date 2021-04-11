@@ -3,7 +3,7 @@ const { getUsuarioAtual } = require('../repositories/userRepository')
 const { db, firebase } = require('../app')
 
 const createEvento = async (evento) => {
-  const result = await db.collection('eventos').doc(evento.id).set(evento).then(() => {
+  const result = await db.collection('eventos').doc(evento._id).set(evento).then(() => {
     console.log('evento salvo?')
   }).catch(() => {
     console.log('evento não salvo')
@@ -24,13 +24,13 @@ const getEventos = async () => {
 
 const editarParticipantes = async (id, participantes) => {
 
-  let participantesArray = []
+  // let participantesArray = []
 
-  participantes.map(participante => {
-    participantesArray.push(participante)
-  })
+  // participantes.map(participante => {
+  //   participantesArray.push(participante)
+  // })
 
-  const result = await db.collection("cities").doc(id).set(participantesArray, { merge: true })
+  const result = await db.collection("eventos").doc(id).set({participantes: participantes}, {merge: true})
     .then(() => {
       console.log("Document successfully written!");
     })

@@ -11,24 +11,22 @@ router.get('/', async (req, res) => {
     try {
 
         const eventos = await getEventosByUsuarioId()
-        console.log(eventos)
-        res.json(eventos)
+        
+        res.status(200).json(eventos)
 
     } catch (error) {
-        console.error(error)
+        res.status(500).json(error)
     }
 
 })
 
 router.post('/participantes', async (req, res) => {
     try {
-        console.log("Entrou na rota /participantes")
         const { participantes, id} = req.body
-        console.log(participantes)
         const result = await editarParticipantes(id, participantes)
-        return result
+        res.status(200).json(result)
     } catch (error) {
-        throw error
+        res.status(500).json(error)
     }
     
 })
@@ -38,10 +36,10 @@ router.get('/:eventoId', async (req, res) => {
     try {
         const { eventoId } = req.params
         const evento = await findById(eventoId)
-        res.json(evento)
+        res.status(200).json(evento)
 
     } catch (error) {
-        console.error(error)
+        res.status(500).json(error)
     }
 
 })
@@ -88,7 +86,7 @@ router.post('/create-evento', async (req, res) => {
         }
 
         const result = await createEvento(evento)
-        return res.sendStatus(200).json(result)
+        res.status(200).json(result)
     } catch (error) {
         console.error(error)
         res.status(500).json(error)
@@ -99,13 +97,13 @@ router.post('/create-evento', async (req, res) => {
 router.delete('/:eventoId', async (req, res) => {
 
     try {
-
+        console.log("Entrou")
         const { eventoId } = req.params
         const evento = await deletar(eventoId)
-        res.json(evento)
+        res.status(200).json(evento)
 
     } catch (error) {
-        console.error(error)
+        res.status(500).json(error)
     }
 
 })
@@ -115,7 +113,7 @@ router.put('/update-evento/:eventoId', async (req, res) => {
         const { eventoId } = req.params
         const { descricao } = req.body
         const result = await atualizarEvento(eventoId, descricao)
-        return res.json(result)
+        res.json(result)
     } catch (error) {
         console.error(error)
     }

@@ -1,15 +1,15 @@
-const { criarUsuario, logout, enviarEmailVerificacao, resetaSenha, login, atualizarUsuario, getUsuarios } = require('../repositories/userRepository')
+const { criarUsuario, logout, enviarEmailVerificacao, resetaSenha, login, atualizarUsuario, getUsuarios, getUsuarioAtual } = require('../repositories/userRepository')
 const express = require('express')
 
 const router = express.Router()
 
 router.post('/signup', async (req, res) => {
     try {
-        console.log("entrou na rota")
+        
         const { email, password, name } = req.body
         let user = await criarUsuario(email, password,name)
         enviarEmailVerificacao(email)
-        console.log("Não deu erro")
+        
         res.json(user)
     } catch (error) {
         console.error(error)
@@ -43,30 +43,48 @@ router.post('/verifcation', (req, res) => {
     try {
         const { email } = req.body
         const result = enviarEmailVerificacao(email)
-        return res.send(result)
+        res.status(200)
     } catch (error) {
-        console.error(error)
+        res.status(500).json(error)
+    }
+})
+
+router.get('/getUsuarioAtual', async(req, res) => {
+    try {
+        
+        
+        const result = await getUsuarioAtual()
+        usuarioAtual = {
+            nome: result.displayName,
+            email: result.email
+        }
+        res.status(200).json(usuarioAtual)
+    } catch (error) {
+        res.status(500).json(error)
     }
 })
 
 router.post('/resetpassword', async(req, res) => {
     try {
+        
         const { email } = req.body
         const result = await resetaSenha(email)
-        res.json(result)
+        res.status(200).json(result)
+        
     } catch (error) {
-        res.json(error)
+        
+        res.status(500).json(error) 
+        
     }
 })
 
 router.post('/login', async (req, res) => {
     try {
-        console.log("entrou na rota /login")
+       
         const { email, password } = req.body
         const result = await login(email, password)
-        res.json(result)
+        res.status(200).json(result)
     } catch (error) {
-        console.error(error)
         res.status(500).json(error)
     }
 })

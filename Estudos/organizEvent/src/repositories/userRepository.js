@@ -46,9 +46,9 @@ const atualizarUsuario = async (profile) => {
 
 const logout = async () => {
     return await firebase.auth().signOut().then(() => {
-       return console.log('sessão encerrada')
+       return ('sessão encerrada')
     }).catch((error) => {
-        throw ('erro ao encerrar sessão')
+        throw error
     });
 }
 
@@ -57,7 +57,7 @@ const enviarEmailVerificacao = () => {
     let user = firebase.auth().currentUser;
 
     user.sendEmailVerification().then(function () {
-        console.log('email enviado com sucesso')
+        return ("Email enviado com sucesso")
     }).catch((error) => {
         throw (error)
     });
@@ -74,9 +74,9 @@ const addNovoUsuario = async (uid, nome, email, telefone, accessToken, refreshTo
         refreshToken: refreshToken
     }
     const result = await db.collection('usuarios').add(usuario).then(() => {
-        console.log('usuário salvo')
-    }).catch(() => {
-        console.log('usuário não salvo')
+        return 'Usuário cadastrado com sucesso'
+    }).catch((error) => {
+        throw error
     })
 
     return result
@@ -86,10 +86,10 @@ const addNovoUsuario = async (uid, nome, email, telefone, accessToken, refreshTo
 const resetaSenha = async (email) => {
     return await firebase.auth().sendPasswordResetEmail(email)
         .then(function () {
-            console.log('email enviado para ', email)
+            return ("Email para redefinir senha enviado com sucesso")
         })
         .catch((error) => {
-            throw ('email inválido')
+            throw error
         });
 }
 

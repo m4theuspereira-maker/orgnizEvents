@@ -20,24 +20,23 @@ const firebaseInit = firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore()
 
-const verificarUsuarioLogado = () => {
-  firebase.auth().onAuthStateChanged((usuario) => {
-    if (usuario) {
-      if (usuario.emailVerified) {
-        //if (confirm("Usuário logado, você deseja entrar?")) {
-         // window.location.href = "evento.html";
-        //}
-        console.log('usuário veirificado')
-      }
-    } else {
-      throw ("Não há usuários logados");
-    }
-  });
+// const verificarUsuarioLogado = () => {
+//   firebase.auth().onAuthStateChanged((usuario) => {
+//     if (usuario) {
+//       if (usuario.emailVerified) {
+//         //if (confirm("Usuário logado, você deseja entrar?")) {
+//          // window.location.href = "evento.html";
+//         //}
+//         console.log('usuário veirificado')
+//       }
+//     } else {
+//       throw ("Não há usuários logados");
+//     }
+// });
 
-}
+// }
 
 module.exports = {
-  verificarUsuarioLogado,
   firebaseInit,
   db,
   firebase,

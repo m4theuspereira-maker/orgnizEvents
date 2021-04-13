@@ -10,10 +10,10 @@ router.post('/signup', async (req, res) => {
         let user = await criarUsuario(email, password,name)
         enviarEmailVerificacao(email)
         
-        res.json(user)
+        res.status(200).json(user)
     } catch (error) {
         console.error(error)
-        res.json(error)
+        res.status(500).json(error)
     }
 })
 

@@ -9,11 +9,8 @@ const { firebase } = require("../app.js")
 
 router.get('/', async (req, res) => {
     try {
-
         const eventos = await getEventosByUsuarioId()
-        
         res.status(200).json(eventos)
-
     } catch (error) {
         res.status(500).json(error)
     }
@@ -97,7 +94,6 @@ router.post('/create-evento', async (req, res) => {
 router.delete('/:eventoId', async (req, res) => {
 
     try {
-        console.log("Entrou")
         const { eventoId } = req.params
         const evento = await deletar(eventoId)
         res.status(200).json(evento)
